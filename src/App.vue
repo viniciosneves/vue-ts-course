@@ -1,27 +1,57 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="AppStyle">
+    <Formulario />
+    <Cronometro />
+    <Lista />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Formulario from './components/Formulario.vue'
+import Cronometro from './components/Cronometro/index.vue'
+import Lista from './components/Lista/index.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    Formulario,
+    Cronometro,
+    Lista
   }
 });
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url('./estilos.scss');
+.AppStyle {
+  display: grid;
+  grid-template-rows: min-content min-content auto;
+  grid-template-areas: 
+  "nova-tarefa"
+  "cronometro"
+  "tarefas"
+  ;
+  row-gap: 24px;
+  min-width: 320px;
+  min-height: calc(100vh - 32px);
+  width: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-image: linear-gradient(to right, #E1E5EA , #E7E9EC);
+
+  @media screen and (min-width:1280px)  {
+    grid-template-areas: 
+    "nova-tarefa tarefas"
+    "cronometro tarefas"
+    ;
+    column-gap: 64px;
+    grid-template-rows: min-content min-content;
+    grid-template-columns: 750px 300px;
+    justify-content: center;
+    align-content: center;
+    padding: 64px;
+  }
 }
 </style>
