@@ -1,8 +1,8 @@
 <template>
   <div class="AppStyle">
-    <Formulario />
-    <Cronometro />
-    <Lista />
+    <Formulario @adicionar-tarefa="adicionarTarefa"/>
+    <Cronometro :tempo="selecionada.tempo"/>
+    <Lista :tarefas="tarefas" @aoSelecionarTarefa="selecionarTarefa"/>
   </div>
 </template>
 
@@ -11,6 +11,7 @@ import { defineComponent } from 'vue';
 import Formulario from './components/Formulario.vue'
 import Cronometro from './components/Cronometro/index.vue'
 import Lista from './components/Lista/index.vue'
+import ITarefa from "./interfaces/Tarefa";
 
 export default defineComponent({
   name: 'App',
@@ -18,6 +19,24 @@ export default defineComponent({
     Formulario,
     Cronometro,
     Lista
+  },
+  data() {
+    return {
+      tarefas: [] as ITarefa[],
+      selecionada: {
+        tempo: "00:00",
+        descricao: "",
+        completado: false
+      } as ITarefa
+    };
+  },
+  methods: {
+    adicionarTarefa (tarefa:ITarefa) : void {
+      this.tarefas.push(tarefa)
+    },
+    selecionarTarefa (tarefa: ITarefa) : void {
+      this.selecionada = tarefa
+    }
   }
 });
 </script>
