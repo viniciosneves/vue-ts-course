@@ -8,6 +8,7 @@
         id="tarefa"
         placeholder="O que você fará?"
         v-model="tarefa.descricao"
+        autocomplete="off"
         required
       />
     </div>
