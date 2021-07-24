@@ -24,7 +24,9 @@ export default defineComponent({
     }
   },
   methods: {
-    aoClicado (tarefa: ITarefa) : void {
+    aoClicado (tarefa: ITarefa) : void {      
+      this.tarefas.forEach(tarefa => tarefa.selecionado = false)
+      tarefa.selecionado = true
       this.$emit('aoSelecionarTarefa', tarefa);
     }
   }

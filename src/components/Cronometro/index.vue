@@ -1,32 +1,48 @@
 <template>
   <div class="cronometro">
-    <div class="relogioWrapper">
-      <span class="relogioNumero">0</span>
-      <span class="relogioNumero">0</span>
-      <span class="relogioDivisao">:</span>
-      <span class="relogioNumero">0</span>
-      <span class="relogioNumero">0</span>
-    </div>
-    <button>Começar</button>
+    <Relogio :totalSegundos="totalSegundos"/>
+    <button @click="iniciarCronometro">Começar</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from "vue";
+import { defineComponent, watch, ref } from "vue";
+import { delay, tempoParaSegundos } from "../../common/utils/date";
+import Relogio from './Relogio.vue'
 
 export default defineComponent({
+  components: {
+    Relogio,
+  },
   props: {
     tempo: {
       type: String,
     },
   },
-  setup(props): void {
+  emits: ['finalizado'],
+  setup(props) {
+    const totalSegundos = ref(0);
     watch(
-      () => props.tempo, (novoTempo) => {
-        console.log(novoTempo);
+      () => props.tempo,
+      (novoTempo) => {
+        if (novoTempo) {
+          totalSegundos.value = tempoParaSegundos(novoTempo);
+        }
       }
-    );
+    )
+    return {
+      totalSegundos
+    }
   },
+  methods: {
+    async iniciarCronometro () : Promise<void> {
+      while (this.totalSegundos > 0) {        
+        await delay()
+        this.totalSegundos--
+      }
+      this.$emit('finalizado')
+    }
+  }
 });
 </script>
 
@@ -35,42 +51,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  grid-area: cronometro;
-  .relogioWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 10px;
-    padding: 16px 12px;
-    margin-bottom: 24px;
-    box-shadow: 2px 4px 4px #839971;
-    background-color: #da7f8f;
-    font-size: 5rem;
-    color: #fcd8d8;
-    .relogioNumero {
-      background-color: #c35266;
-      box-shadow: 2px 2px 4px #7c5058 inset;
-      height: 3.6rem;
-      width: 3rem;
-      padding: 8px 4px;
-      border-radius: 10px;
-
-      @media screen and (min-width: 1280px) {
-        height: 10.8rem;
-        width: 9rem;
-      }
-    }
-
-    .relogioDivisao {
-      height: 4.2rem;
-
-      @media screen and (min-width: 1280px) {
-        height: 12.6rem;
-      }
-    }
-  }
+  grid-area: cronometro;  
   button {
     width: 150px;
     padding: 16px;

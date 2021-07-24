@@ -1,7 +1,7 @@
 <template>
   <div class="AppStyle">
     <Formulario @adicionar-tarefa="adicionarTarefa"/>
-    <Cronometro :tempo="selecionada.tempo"/>
+    <Cronometro :tempo="selecionada.tempo" @finalizado="finalizarTarefa"/>
     <Lista :tarefas="tarefas" @aoSelecionarTarefa="selecionarTarefa"/>
   </div>
 </template>
@@ -36,6 +36,10 @@ export default defineComponent({
     },
     selecionarTarefa (tarefa: ITarefa) : void {
       this.selecionada = tarefa
+    },
+    finalizarTarefa () : void {
+      this.selecionada.completado = true
+      this.selecionada.selecionado = false
     }
   }
 });

@@ -1,5 +1,5 @@
 <template>
-  <li class="item" @click="aoClicado">
+  <li class="item" :class="{ itemCompletado: tarefa.completado, itemSelecionado: tarefa.selecionado  }" @click="aoClicado">
     <h3>{{tarefa.descricao}}</h3>
     <span>{{tarefa.tempo}}</span>
     <span v-if="tarefa.completado" class="concluido" aria-label="icone de concluido"></span>
@@ -20,6 +20,9 @@ export default defineComponent({
   },
   methods: {
     aoClicado () : void {
+      if (this.tarefa.completado) {
+        return
+      }
       this.$emit('aoClicado', this.tarefa)
     }
   }
@@ -52,20 +55,20 @@ export default defineComponent({
 }
 
 .itemSelecionado {
-  background-color: #292929;
-  box-shadow: 2px 4px 4px #0000009F inset;
+  background-color: #A1B5C1;
+  box-shadow: none;
+  box-shadow: 2px 4px 4px #5D666B inset;
 }
 
 .itemCompletado {
-  background-color: #566F42;
   cursor: auto;
-
   .concluido {
     display: block;
     background-image: url('../../../assets/img/check-mark.svg');
     background-repeat: no-repeat;
     background-size: 38px 38px;
     position: absolute;
+    filter: drop-shadow(1px 1px 4px #839971);
     top: 50%;
     right: 12px;
     transform: translateY(-50%);
